@@ -1,12 +1,22 @@
+import type Database from "db"
 import Parser, { SupportedParserEngines, type SupportedParserEngineDomain } from "parser"
+import type Restuarant from "restaurant"
 
 interface RequestData {
 	url?: string
 }
 
-class Router {
+class Controller {
 
-	fetch = async (req: Request) => {
+	db: Database
+
+	constructor(db: Database) {
+		this.db = db
+	}
+
+	save = (restaurants: Restuarant[]) => this.db.insert('restaurants', restaurants)
+
+	receive = async (req: Request) => {
 		let data: RequestData = {}
 		try {
 			data = await req.json() as RequestData
@@ -26,9 +36,10 @@ class Router {
 		const response = await fetch(data.url)
 		const parser = new Parser(domain as SupportedParserEngineDomain)
 		const restaurants = await parser.parse(response)
+		this.save(restaurants) // background task
 		return Response.json({ restaurants })
 	}
 
 }
 
-export default Router
+export default Controller

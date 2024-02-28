@@ -1,4 +1,5 @@
 import * as cheerio from 'cheerio';
+import Restuarant from 'restaurant';
 
 export default async function(response: Response) {
 	const $ = cheerio.load(await response.text())
@@ -12,8 +13,8 @@ export default async function(response: Response) {
 			const address = $(el).find('.c-mapstack__address').text()
 			const phone = $(el).find('.c-mapstack__phone a').attr('href')
 			const writeup = $(el).find('.c-entry-content').text()?.trim()
-			const website = $(el).find('.c-mapstack__info[data-analytics-link="link-icon"]').attr('href')
-			return { name, address, phone, writeup, website }
+			const website = $(el).find('.c-mapstack__info [data-analytics-link="link-icon"]').attr('href')
+			return new Restuarant({ name, address, phone, writeup, website, source: response.url })
 		})
 	return Array.from(restaurants)
 }

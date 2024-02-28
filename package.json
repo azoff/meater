@@ -15,6 +15,10 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "cheerio": "^1.0.0-rc.12"
+    "@types/titlecase": "^1.1.2",
+    "cheerio": "^1.0.0-rc.12",
+    "google-auth-library": "^9.6.3",
+    "google-spreadsheet": "^4.1.1",
+    "titlecase": "^1.1.3"
   }
 }

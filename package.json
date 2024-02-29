@@ -1,11 +1,17 @@
 {
-  "name": "meater",
+  "name": "@azoff/meater",
+  "version": "1.0.1",
   "module": "src/index.ts",
   "type": "module",
   "scripts": {
     "dev": "bun --watch src/index.ts",
-    "build": "bun build src/index.ts",
-    "start": "NODE_ENV=production bun src/index.ts",
+    "version": "bun run src/version.ts",
+    "tag:push": "git tag -a $(bun --silent version git) && git push --tags",
+    "docker:build": "docker build -t $(bun --silent version docker) .",
+    "docker:push": "docker push $(bun --silent version docker)",
+    "docker:run": "docker run -p 3000:3000 $(bun --silent version docker)",
+    "release": "bun tag:push && bun docker:build && bun docker:push",
+    "start": "bun src/index.ts",
     "test": "bun test"
   },
   "devDependencies": {

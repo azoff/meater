@@ -2,23 +2,27 @@
 
 A service to parse food reccomendation sites like eater and add their reccomendations to a spreadsheet, ultimately powering a map of reccomendations.
 
-To install dependencies:
+(1) Install Dependencies
 
 ```bash
 bun install
 ```
 
-To run:
+(2) Setup Environment
 
 ```bash
-bun run index.ts
+cp .env.example .env
+open .env
+```
+
+(3) Run Service
+
+```bash
+bun dev # or `bun start` for production 
 ```
 
 ## TODO
 
-- [ ] Add some heuristic for vegetarian/vegan reccomendations
-- [ ] Add some heuristic for bakeries and coffee shops
-- [ ] Dockerize service
 - [ ] Deploy service to nuc
 - [ ] Support GET requests as well
 - [ ] Add DNS rules to post to NUC

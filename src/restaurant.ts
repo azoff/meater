@@ -9,6 +9,30 @@ interface RestaurantParams {
 	website?: string
 	source: string
 	created?: Date
+	tags?: string[]
+}
+
+function coerceTags(writeup: string) {
+	const tags = []
+	if (writeup.includes('vegan') || writeup.includes('vegetarian'))
+		tags.push('plants')
+	if (writeup.includes('bakery') || writeup.includes('baked') || writeup.includes('bake shop'))
+		tags.push('carbs')
+	if (writeup.includes('bar') || writeup.includes('pub') || writeup.includes('brewery') || 
+			writeup.includes('cocktail') || writeup.includes('wine') || writeup.includes('beer'))
+		tags.push('booze')
+	if (writeup.includes('sushi') || writeup.includes('poke') || writeup.includes('sashimi') ||
+			writeup.includes('nigiri') || writeup.includes('maki') || writeup.includes('roll'))
+		tags.push('sushi')
+	if (writeup.includes('fish') || writeup.includes('seafood') || writeup.includes('crab') ||
+			writeup.includes('lobster') || writeup.includes('shrimp') || writeup.includes('oyster') ||
+			writeup.includes('clam') || writeup.includes('mussel') || writeup.includes('scallop'))
+		tags.push('seafood')
+	if (writeup.includes('cafe') || writeup.includes('coffee') || writeup.includes('tea'))
+		tags.push('caffeine')
+	if (writeup.includes('soft serve') || writeup.includes('ice cream') || writeup.includes('gelato'))
+		tags.push('dairy')
+	return tags
 }
 
 class Restuarant implements Serializable {
@@ -17,6 +41,7 @@ class Restuarant implements Serializable {
 	address: string
 	phone: string
 	writeup: string
+	tags: string
 	website: string
 	source: string
 	created: Date
@@ -26,6 +51,7 @@ class Restuarant implements Serializable {
 		this.address = params.address
 		this.phone = params.phone ?? ''
 		this.writeup = params.writeup
+		this.tags = (params.tags ?? coerceTags(params.writeup.toLowerCase())).join(', ')
 		this.website = params.website ?? ''
 		this.source = params.source
 		this.created = params.created ?? new Date()

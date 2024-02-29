@@ -1,5 +1,6 @@
 import Database from 'db'
 import Controller from 'controller'
+import pkg from '../package.json'
 
 const hostname = process.env['BUN_HOST'] ?? '0.0.0.0'
 const port = process.env['BUN_PORT'] ?? 3000
@@ -12,4 +13,4 @@ Bun.serve({
 	fetch: controller.receive
 })
 
-console.log(`server started on http://${hostname}:${port}...`)
+console.log(`meater v${pkg.version} started on http://${hostname}:${port}...`)

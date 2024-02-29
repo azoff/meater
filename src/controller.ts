@@ -3,7 +3,7 @@ import Parser, { SupportedParserEngines, type SupportedParserEngineDomain } from
 import type Restuarant from "restaurant"
 
 interface RequestData {
-	url?: string
+	url?: string | null
 }
 
 class Controller {
@@ -17,26 +17,36 @@ class Controller {
 	save = (restaurants: Restuarant[]) => this.db.insert('restaurants', restaurants)
 
 	receive = async (req: Request) => {
+		
+		const reqUrl = new URL(req.url)
+		console.log(`${req.method} ${reqUrl.pathname}`)
+		
 		let data: RequestData = {}
 		try {
 			data = await req.json() as RequestData
 		} catch(e) {
-			console.warn('failed to parse request body', e)
+			const url = reqUrl.searchParams.get('url')
+			data = { url }
 		}
-		
+
 		if (!data.url) 
-				return Response.json({ error: 'url is required' }, { status: 400 })
+			return Response.json({ error: 'url is required' }, { status: 400 })
+		else if (!data.url.startsWith('http'))
+			return Response.json({ error: 'invalid url scheme' }, { status: 400 })		
 		
 		const hostname = new URL(data.url).hostname
 		const domain = hostname.split('.').slice(-2).join('.')
+		console.log(`processing source:`, data.url)
 		
 		if (!Object.keys(SupportedParserEngines).includes(domain))
-			return new Response('unsupported domain', { status: 400 })
+			return new Response(`unsupported domain: ${domain}`, { status: 400 })
 		
 		const response = await fetch(data.url)
 		const parser = new Parser(domain as SupportedParserEngineDomain)
 		const restaurants = await parser.parse(response)
-		this.save(restaurants) // background task
+		
+		console.log(`found ${restaurants.length} restaurant(s)!`)
+		this.save(restaurants).then(() => console.log('saved to database!'))
 		return Response.json({ restaurants })
 	}
 

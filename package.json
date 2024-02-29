@@ -1,6 +1,6 @@
 {
   "name": "@azoff/meater",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "module": "src/index.ts",
   "type": "module",
   "scripts": {
@@ -9,7 +9,7 @@
     "tag:push": "git tag -a $(bun --silent version git) && git push --tags",
     "docker:build": "docker build -t $(bun --silent version docker) .",
     "docker:push": "docker push $(bun --silent version docker)",
-    "docker:run": "docker run -p 3000:3000 $(bun --silent version docker)",
+    "docker:run": "docker run -v $(pwd):/app --env BUN_PORT=3000 -p 3000:3000 $(bun --silent version docker)",
     "release": "bun tag:push && bun docker:build && bun docker:push",
     "start": "bun src/index.ts",
     "test": "bun test"

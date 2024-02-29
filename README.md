@@ -23,7 +23,5 @@ bun dev # or `bun start` for production
 
 ## TODO
 
-- [ ] Deploy service to nuc
-- [ ] Support GET requests as well
 - [ ] Add DNS rules to post to NUC
 - [ ] Add shortlink for map, maybe GET without any parameters, driven by env

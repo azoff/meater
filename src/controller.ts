@@ -21,6 +21,12 @@ class Controller {
 		const reqUrl = new URL(req.url)
 		console.log(`${req.method} ${reqUrl.pathname}`)
 		
+		if (req.method === 'GET' && reqUrl.pathname === '/map') {
+			const mapId = process.env['GOOGLE_MAP_ID']
+			const location = `https://www.google.com/maps/d/u/0/edit?mid=${mapId}&usp=sharing`
+			return Response.redirect(location, 302)
+		}
+
 		let data: RequestData = {}
 		try {
 			data = await req.json() as RequestData
@@ -29,7 +35,7 @@ class Controller {
 			data = { url }
 		}
 
-		if (!data.url) 
+		if (data.url == null) 
 			return Response.json({ error: 'url is required' }, { status: 400 })
 		else if (!data.url.startsWith('http'))
 			return Response.json({ error: 'invalid url scheme' }, { status: 400 })		

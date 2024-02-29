@@ -16,7 +16,12 @@ function coerceTags(writeup: string) {
 	const tags = []
 	if (writeup.includes('vegan') || writeup.includes('vegetarian'))
 		tags.push('plants')
-	if (writeup.includes('bakery') || writeup.includes('baked') || writeup.includes('bake shop'))
+	if (writeup.includes('bakery') || writeup.includes('baked') || writeup.includes('bake shop') || 
+			writeup.includes('donut') || writeup.includes('bread') || writeup.includes('pastry') ||
+			writeup.includes('cake') || writeup.includes('cookie') || writeup.includes('pie') ||
+			writeup.includes('tart') || writeup.includes('croissant') || writeup.includes('muffin') ||
+			writeup.includes('scone') || writeup.includes('biscuit') || writeup.includes('roll') ||
+			writeup.includes('bagel') || writeup.includes('pretzel') || writeup.includes('strudel'))
 		tags.push('carbs')
 	if (writeup.includes('bar') || writeup.includes('pub') || writeup.includes('brewery') || 
 			writeup.includes('cocktail') || writeup.includes('wine') || writeup.includes('beer'))
